@@ -1,0 +1,295 @@
+{
+  "description": "Targeted same-plane numerical convergence checks; no physical-model calibration",
+  "base_resolution": {
+    "nq": 1500,
+    "nangle": 56,
+    "nf": 64,
+    "logq_min": -12.0,
+    "logq_max": 7.5
+  },
+  "refined_resolution": {
+    "nq": 3000,
+    "nangle": 112,
+    "nf": 128,
+    "logq_min": -12.0,
+    "logq_max": 7.5
+  },
+  "rho0": 50.0,
+  "cases": [
+    {
+      "mu": 1.0,
+      "base": {
+        "dm": {
+          "fractional_rms": 5.4633375738715644e-05,
+          "deterministic_rms_snr": 0.0019315815231979213,
+          "kl_separation": 1.822556163753119e-06,
+          "effective_modes": 2.0953648513231204,
+          "radial_to_covariance_variance_relative_error": 0.0
+        },
+        "stars": {
+          "fractional_rms": 0.007587657712789652,
+          "deterministic_rms_snr": 0.2682642111017986,
+          "kl_separation": 0.02527402210663378,
+          "effective_modes": 3.973692130081041,
+          "radial_to_covariance_variance_relative_error": -1.1102230246251565e-16
+        },
+        "foreground": {
+          "kl_separation": 1.7715136954466057e-06,
+          "weak_dm_fisher_fixed_star": 1.7715150361487847e-06,
+          "weak_dm_fisher_free_star_amplitude": 7.597338550924802e-07,
+          "fisher_shape_cosine": 0.9033704513593247
+        }
+      },
+      "refined": {
+        "dm": {
+          "fractional_rms": 5.4622038867898896e-05,
+          "deterministic_rms_snr": 0.001931180704286323,
+          "kl_separation": 1.8222255743908514e-06,
+          "effective_modes": 2.0943858946945606,
+          "radial_to_covariance_variance_relative_error": -5.551115123125783e-16
+        },
+        "stars": {
+          "fractional_rms": 0.007586204370623091,
+          "deterministic_rms_snr": 0.26821282769673055,
+          "kl_separation": 0.025258838114104832,
+          "effective_modes": 3.9754353083822274,
+          "radial_to_covariance_variance_relative_error": -2.220446049250313e-16
+        },
+        "foreground": {
+          "kl_separation": 1.7712064519360255e-06,
+          "weak_dm_fisher_fixed_star": 1.771207792315433e-06,
+          "weak_dm_fisher_free_star_amplitude": 7.589940779919798e-07,
+          "fisher_shape_cosine": 0.903533336145029
+        }
+      },
+      "relative_change": {
+        "dm": {
+          "fractional_rms": -0.00020750815162817737,
+          "deterministic_rms_snr": -0.00020750815162839942,
+          "kl_separation": -0.00018138775026110832,
+          "effective_modes": -0.000467201035629472
+        },
+        "stars": {
+          "fractional_rms": -0.00019154029103229941,
+          "deterministic_rms_snr": -0.00019154029103252146,
+          "kl_separation": -0.0006007746794270963,
+          "effective_modes": 0.00043867975779776636
+        },
+        "foreground": {
+          "kl_separation": -0.00017343558301008422,
+          "weak_dm_fisher_fixed_star": -0.00017343563395300077,
+          "weak_dm_fisher_free_star_amplitude": -0.0009737319135401101,
+          "fisher_shape_cosine": 0.00018030785206568645
+        }
+      }
+    },
+    {
+      "mu": 30.0,
+      "base": {
+        "dm": {
+          "fractional_rms": 0.0019938246447931633,
+          "deterministic_rms_snr": 0.386102482227092,
+          "kl_separation": 0.06891435403837337,
+          "effective_modes": 2.206401546669807,
+          "radial_to_covariance_variance_relative_error": 2.220446049250313e-16
+        },
+        "stars": {
+          "fractional_rms": 0.03256551686130456,
+          "deterministic_rms_snr": 6.30628522322347,
+          "kl_separation": 4.814814313486489,
+          "effective_modes": 4.439586189442402,
+          "radial_to_covariance_variance_relative_error": -2.220446049250313e-16
+        },
+        "foreground": {
+          "kl_separation": 0.007277995618384173,
+          "weak_dm_fisher_fixed_star": 0.007293927180174145,
+          "weak_dm_fisher_free_star_amplitude": 0.0052545715421780876,
+          "fisher_shape_cosine": 0.6935550625379673
+        }
+      },
+      "refined": {
+        "dm": {
+          "fractional_rms": 0.0019934096555788,
+          "deterministic_rms_snr": 0.3860221199112877,
+          "kl_separation": 0.06890335333509624,
+          "effective_modes": 2.205278660577356,
+          "radial_to_covariance_variance_relative_error": -2.220446049250313e-16
+        },
+        "stars": {
+          "fractional_rms": 0.032561180379796446,
+          "deterministic_rms_snr": 6.305445467190369,
+          "kl_separation": 4.810426440334587,
+          "effective_modes": 4.441495338505138,
+          "radial_to_covariance_variance_relative_error": 0.0
+        },
+        "foreground": {
+          "kl_separation": 0.007276066124346147,
+          "weak_dm_fisher_fixed_star": 0.00729199069882795,
+          "weak_dm_fisher_free_star_amplitude": 0.005236649410493032,
+          "fisher_shape_cosine": 0.6959015988803298
+        }
+      },
+      "relative_change": {
+        "dm": {
+          "fractional_rms": -0.00020813726796242715,
+          "deterministic_rms_snr": -0.00020813726796242715,
+          "kl_separation": -0.0001596286206354547,
+          "effective_modes": -0.0005089219114016164
+        },
+        "stars": {
+          "fractional_rms": -0.00013316175900357496,
+          "deterministic_rms_snr": -0.00013316175900335292,
+          "kl_separation": -0.0009113275956690314,
+          "effective_modes": 0.0004300286065572756
+        },
+        "foreground": {
+          "kl_separation": -0.00026511338274937124,
+          "weak_dm_fisher_fixed_star": -0.0002654922784887104,
+          "weak_dm_fisher_free_star_amplitude": -0.003410769373143996,
+          "fisher_shape_cosine": 0.003383345417126149
+        }
+      }
+    },
+    {
+      "mu": 100.0,
+      "base": {
+        "dm": {
+          "fractional_rms": 0.008135044721355341,
+          "deterministic_rms_snr": 2.8761726438630952,
+          "kl_separation": 2.046072315032669,
+          "effective_modes": 2.2053796749706556,
+          "radial_to_covariance_variance_relative_error": 2.220446049250313e-16
+        },
+        "stars": {
+          "fractional_rms": 0.05933016638551853,
+          "deterministic_rms_snr": 20.976381490063158,
+          "kl_separation": 19.228737164348946,
+          "effective_modes": 4.440982414400938,
+          "radial_to_covariance_variance_relative_error": 2.220446049250313e-16
+        },
+        "foreground": {
+          "kl_separation": 0.05400667207197359,
+          "weak_dm_fisher_fixed_star": 0.05478539689517428,
+          "weak_dm_fisher_free_star_amplitude": 0.0470475046527789,
+          "fisher_shape_cosine": 0.5123781315660909
+        }
+      },
+      "refined": {
+        "dm": {
+          "fractional_rms": 0.008133350930270535,
+          "deterministic_rms_snr": 2.875573798282105,
+          "kl_separation": 2.0457562786343533,
+          "effective_modes": 2.20425055994748,
+          "radial_to_covariance_variance_relative_error": -2.220446049250313e-16
+        },
+        "stars": {
+          "fractional_rms": 0.05932265832161704,
+          "deterministic_rms_snr": 20.97372698861399,
+          "kl_separation": 19.189381624339056,
+          "effective_modes": 4.4428953398135125,
+          "radial_to_covariance_variance_relative_error": -2.220446049250313e-16
+        },
+        "foreground": {
+          "kl_separation": 0.05395429894949794,
+          "weak_dm_fisher_fixed_star": 0.054731318562056215,
+          "weak_dm_fisher_free_star_amplitude": 0.04668283374355955,
+          "fisher_shape_cosine": 0.5219999193856539
+        }
+      },
+      "relative_change": {
+        "dm": {
+          "fractional_rms": -0.00020820919156838702,
+          "deterministic_rms_snr": -0.00020820919156849804,
+          "kl_separation": -0.00015446003349628423,
+          "effective_modes": -0.0005119821480129572
+        },
+        "stars": {
+          "fractional_rms": -0.0001265471573550503,
+          "deterministic_rms_snr": -0.00012654715735527233,
+          "kl_separation": -0.0020467043505517646,
+          "effective_modes": 0.00043074374858376174
+        },
+        "foreground": {
+          "kl_separation": -0.0009697528187971871,
+          "weak_dm_fisher_fixed_star": -0.0009870939371223741,
+          "weak_dm_fisher_free_star_amplitude": -0.007751121168076858,
+          "fisher_shape_cosine": 0.018778685558171526
+        }
+      }
+    }
+  ],
+  "infrared_checks": [
+    {
+      "center_hz": 0.003,
+      "mu": 1.0,
+      "rms_by_logq_min": {
+        "-7.0": {
+          "dm": 0.0002150748910698072,
+          "stars": 5.7763046931250826e-05
+        },
+        "-10.0": {
+          "dm": 0.00021508162101518824,
+          "stars": 5.77626242984974e-05
+        },
+        "-12.0": {
+          "dm": 0.00021508168825199462,
+          "stars": 5.776292717929834e-05
+        }
+      }
+    },
+    {
+      "center_hz": 0.003,
+      "mu": 30.0,
+      "rms_by_logq_min": {
+        "-7.0": {
+          "dm": 0.006629496372542374,
+          "stars": 0.0002273359336516525
+        },
+        "-10.0": {
+          "dm": 0.00668482896527622,
+          "stars": 0.00022741273642969153
+        },
+        "-12.0": {
+          "dm": 0.006684829572028848,
+          "stars": 0.00022741253871060908
+        }
+      }
+    },
+    {
+      "center_hz": 0.01,
+      "mu": 30.0,
+      "rms_by_logq_min": {
+        "-7.0": {
+          "dm": 0.005557770698272972,
+          "stars": 0.00041519390454969524
+        },
+        "-10.0": {
+          "dm": 0.005563155909304319,
+          "stars": 0.0004151967815018879
+        },
+        "-12.0": {
+          "dm": 0.005563160481625416,
+          "stars": 0.00041519686019351754
+        }
+      }
+    },
+    {
+      "center_hz": 31.622776601683793,
+      "mu": 100.0,
+      "rms_by_logq_min": {
+        "-7.0": {
+          "dm": 0.005770617757850411,
+          "stars": 0.042143832339653096
+        },
+        "-10.0": {
+          "dm": 0.005770617827054065,
+          "stars": 0.04214383276221087
+        },
+        "-12.0": {
+          "dm": 0.005770617623820125,
+          "stars": 0.04214382170896752
+        }
+      }
+    }
+  ]
+}

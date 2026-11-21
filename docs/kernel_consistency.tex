@@ -1,0 +1,89 @@
+\subsection{A joint amplitude--phase consistency relation}
+\label{sec:kernel-consistency}
+
+The lensing response constrains amplitude and phase jointly.  In
+particular, a power-spectrum-independent variance relation was established
+for weak lensing by Inamori and Suyama~\cite{inamori2021} and extended to
+weak perturbations of a fixed strong lens by Nakazono and
+Suyama~\cite{nakazono2026}.  In the single-plane Born model used here,
+the underlying identity follows directly from the kernel of
+Oguri and Takahashi~\cite{oguri2022}:
+\begin{equation}
+ H_A(f,k,\theta)=b(\theta)
+ \frac{\sin s+i(\cos s-1)}{s},\qquad
+ s=\frac{r_F^2(f)k^2b(\theta)}{2}.
+\end{equation}
+Since $r_F^2(2f)=r_F^2(f)/2$, elementary trigonometry gives
+\begin{equation}
+ |H_A(f,k,\theta)|^2
+ =\frac{4b(\theta)^2\sin^2(s/2)}{s^2}
+ =\left[\operatorname{Re}H_A(2f,k,\theta)\right]^2.
+ \label{eq:modewise-consistency}
+\end{equation}
+The result includes saddles; $b$ need not be positive.  Integrating
+against any nonnegative homogeneous convergence power spectrum yields,
+to leading nonzero order in the perturbation,
+\begin{equation}
+ \left\langle K(f)^2\right\rangle+
+ \left\langle S(f)^2\right\rangle
+ =\left\langle K(2f)^2\right\rangle,
+ \label{eq:ensemble-consistency}
+\end{equation}
+where $K=\operatorname{Re}\eta$ and $S=\operatorname{Im}\eta$ at first
+order, after removing the geometric arrival-time phase.  More generally,
+the quantities in Ref.~\cite{nakazono2026} are defined through the
+logarithm of the amplification factor; their leading variances agree
+with those used here.  The brackets average over weak perturbations at
+fixed macro lens.  The code tests Eq.~\eqref{eq:modewise-consistency}
+directly, including negative-parity cases.
+
+Nakazono and Suyama~\cite{nakazono2026} also obtain, through second
+order in the weak potential and with the smooth macro lens held fixed,
+\begin{equation}
+ \langle S(f)\rangle-\tfrac12\langle S(2f)\rangle
+   =-\langle K(f)S(f)\rangle,\qquad
+ \langle K(f)\rangle=-\langle K(f)^2\rangle.
+\end{equation}
+Here $F_j/F_{j,0}=\exp[K_j+i(S_j+2\pi f\Delta t_j)]$ defines the
+logarithmic amplitude and the delay-subtracted phase.  Within their
+geometric macro-lens and Limber treatment, they additionally derive
+$\langle e^{2K_j}\rangle=1$ beyond the perturbative expansion.
+Our first-order covariance calculation does not predict the second-order
+means; testing these identities requires a consistently extended
+propagation calculation and the same ensemble definition.  They cannot
+be applied unchanged to projected image differences.
+
+Three limitations matter observationally.  First, the relation holds
+for ensemble moments, not the squared residual of one realization:
+cross terms between different Fourier modes cancel in the ensemble,
+not in each event.  Second, our detector-weighted projection $Q$ removes
+amplitude, phase, and delay using a finite frequency band.  It does not
+preserve Eq.~\eqref{eq:ensemble-consistency}; a valid test must pass the
+theoretical joint covariance through the same projection, frequency
+window, and noise weighting as the data.  Third, independent image
+residuals can have their variances added, but cross-correlated images
+with different macro kernels introduce cross terms that need not obey
+the simple relation.  It would therefore be incorrect to apply it
+unchanged to a measured, projected image difference.
+
+These relations restrict a lensing model, but do not identify lensing
+uniquely.  A multiplicative detector response can also create correlated
+amplitude and phase errors.  Stronger evidence requires a common
+astrophysical transfer function across independent detectors, consistency
+with lens geometry and image parity, and calibration information.
+
+\paragraph{Causality and image ratios.}
+Kramers--Kronig relations constrain the full physical lens transfer
+function when its time origin is fixed at the earliest arrival.
+They follow from causality~\cite{tanaka2023} but cannot automatically
+be imposed on the normalized ratio $F_1/F_2$:
+division introduces the zeros of $F_2$ as possible poles, and the inverse
+response need not be causal.  An isolated, infinite quadratic saddle
+model also has no lower bound on its local Fermat time, so it does not
+by itself supply the global causal transfer function.  Finite-band
+projection changes the relation further.  Finally, recovering phase
+from magnitude requires any zero-dependent all-pass contributions
+\cite{suyama2025}, and
+causal instrumental filters can obey dispersion relations too.  Thus
+causality is a physical consistency requirement, not a unique detector
+systematics veto.

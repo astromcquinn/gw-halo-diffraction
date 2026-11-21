@@ -1,0 +1,154 @@
+\section{What two lensed images actually measure}
+\label{sec:inference}
+
+This section derives the idealized two-image likelihood used in our sensitivity
+calculations. The weak-diffraction signal is a random frequency-dependent
+perturbation, as in the framework of \cite{oguri2022,choi2026}; the differential
+weights, nuisance projection, and statistical information accounting below are
+derived here. The results are sensitivity requirements, not population forecasts.
+
+\subsection{Eliminating a shared waveform and paying its noise cost}
+
+For positive Fourier frequencies, write the two scalar observations as
+\begin{equation}
+ d_i(f)=\sqrt{|\mu_i|}\,e^{i(2\pi f t_i+\phi_i)}
+ h(f)[1+\delta_i(f)]+n_i(f),\qquad i=1,2.
+\end{equation}
+Here \(h\) is the common unlensed waveform, \(\delta_i\) is a fractional
+perturbation, and the independent noises have one-sided power spectral densities
+\(S_i(f)\). Dividing out the macro amplitude and phase and differencing removes
+the common waveform at zeroth order:
+\begin{equation}
+ r(f)=h(f)[\delta_1(f)-\delta_2(f)]+n_\Delta(f),\qquad
+ S_\Delta(f)=\frac{S_1(f)}{|\mu_1|}+\frac{S_2(f)}{|\mu_2|}.
+\end{equation}
+Define image SNR densities \(w_i(f)=4|\mu_i||h(f)|^2/S_i(f)\), with
+\(\rho_i^2=\int w_i(f)\,df\). The exact differential weight is
+\begin{equation}
+ \boxed{w_\Delta(f)=\frac{4|h(f)|^2}{S_\Delta(f)}
+ =\frac{w_1(f)w_2(f)}{w_1(f)+w_2(f)}.}
+ \label{eq:infer_harmonic}
+\end{equation}
+This also follows by minimizing a two-image Gaussian likelihood over an
+arbitrary common complex source amplitude independently in each frequency bin.
+Thus source-waveform cancellation has a definite noise cost.
+
+If the two SNR densities have identical normalized frequency dependence,
+\(w_i(f)=\rho_i^2p(f)\), where \(\int p(f)\,df=1\), then
+\begin{equation}
+ \rho_\Delta\equiv\left[\int w_\Delta(f)\,df\right]^{1/2}
+ =\frac{\rho_1\rho_2}{\sqrt{\rho_1^2+\rho_2^2}}.
+ \label{eq:infer_rhodelta}
+\end{equation}
+Two equally loud images give \(\rho_\Delta=\rho_i/\sqrt{2}\); for unequal
+images the quieter image limits the comparison. Equation~\eqref{eq:infer_rhodelta}
+is an upper bound at fixed integrated image SNRs if their spectral shapes differ;
+in that case one must first integrate Eq.~\eqref{eq:infer_harmonic}.
+
+This scalar cancellation presumes that detector responses have been accounted
+for. At different arrival times a real network measures different mixtures
+\(F^+_I(t_i)h_++F^\times_I(t_i)h_\times\). Precession or higher harmonics can
+make the polarization ratio frequency dependent. A realistic analysis should
+therefore use a joint network likelihood sharing both source polarizations, or
+propagate the uncertainty of a polarization reconstruction. A saddle image also
+requires the actual Morse/Hilbert-transform operator: its phase is \(-i\) at
+positive frequency and \(+i\) at negative frequency, up to Fourier convention.
+For general waveforms this is not equivalent to shifting the binary's orbital
+coalescence phase. Intrinsic waveform errors can cancel in a consistent joint
+comparison; calibration and response errors need their own nuisance model.
+
+\subsection{Projecting out ordinary magnification, phase, and delay}
+
+Macro amplitudes and arrival times are fitted from the same data. Introduce the
+real inner product
+\begin{equation}
+ (u,v)_\Delta=\operatorname{Re}\int df\,w_\Delta(f)u^*(f)v(f)
+\end{equation}
+and the three nuisance functions \(b_a(f)=\{1,i,2\pi if\}\), with real
+coefficients. With \(\Gamma_{ab}=(b_a,b_b)_\Delta\), the retained perturbation is
+\begin{equation}
+ P_\perp u=u-\sum_{ab}b_a(\Gamma^{-1})_{ab}(b_b,u)_\Delta.
+ \label{eq:infer_projection}
+\end{equation}
+A real rather than complex projection matters: a time shift removes an imaginary
+linear slope, not a real amplitude slope. Fitting an arbitrary constant phase is
+a conservative choice even if a Morse phase is theoretically discrete.
+
+For \(\Delta\delta=\delta_1-\delta_2\), define the detector-weighted,
+projected \emph{differential} fractional RMS by
+\begin{equation}
+ \epsilon_\Delta^2=\rho_\Delta^{-2}
+ \int df\,w_\Delta(f)|P_\perp\Delta\delta(f)|^2.
+\end{equation}
+For a specified residual realization, its matched-filter SNR is
+\begin{equation}
+ \boxed{\rho_{\rm res}=\rho_\Delta\epsilon_\Delta.}
+ \label{eq:infer_known}
+\end{equation}
+This is a useful sensitivity ceiling when the realization is not known; it is
+not automatically the significance for discovering a stochastic covariance.
+For example, two images each with \(\rho_i=500\) give
+\(\rho_{\rm res}=3.54\) for \(\epsilon_\Delta=10^{-2}\), or \(0.354\) for
+\(10^{-3}\). These are illustrative sensitivity inputs, not predicted CDM
+residual amplitudes or event rates.
+
+If each image instead has projected RMS \(\epsilon\), and their weighted real
+correlation is \(c\), then
+\begin{equation}
+ \epsilon_\Delta^2=2\epsilon^2(1-c).
+\end{equation}
+For equally loud independent images, the extra \(\sqrt{2}\) differential signal
+compensates the extra \(\sqrt{2}\) noise, yielding
+\(\rho_{\rm res,rms}=\rho_i\epsilon\). A perfectly common perturbation cancels.
+The experiment measures differential small-scale structure, and cannot retain
+every mode of the total line-of-sight variance.
+
+\subsection{Stochastic detection is a covariance problem}
+
+The complex covariance of the difference is
+\begin{equation}
+ C_\Delta=C_{11}+C_{22}-C_{12}-C_{21},\qquad
+ C_{ij}(f,f')=\langle\delta_i(f)\delta_j^*(f')\rangle.
+\end{equation}
+One must also retain the nonconjugated covariance
+\(J_{ij}(f,f')=\langle\delta_i(f)\delta_j(f')\rangle\), or directly construct
+the covariance of the stacked real and imaginary components. A real convergence
+field with a complex diffraction kernel does not generally produce a proper,
+circular complex process. Our implementation constructs the real covariance,
+projects it with Eq.~\eqref{eq:infer_projection}, and whitens it using the
+frequency weights. The resulting eigenvalues \(\eta_a\geq0\) are signal-variance
+to noise-variance ratios in independent real modes.
+
+On the retained whitened subspace, take \(x\sim N(0,I+\Lambda)\), where
+\(\Lambda\) is the lens covariance and \(\eta_a\) are its eigenvalues. Integrating
+over a Gaussian random lens realization gives
+\begin{equation}
+ \ln\frac{p(x|\Lambda)}{p(x|0)}=
+ -\frac12\ln\det(I+\Lambda)
+ +\frac12x^T[I-(I+\Lambda)^{-1}]x.
+\end{equation}
+Our covariance-information measure is
+\begin{equation}
+ \boxed{d\equiv\sqrt{2D_{\rm KL}(p_\Lambda\Vert p_0)}
+ =\left\{\sum_a[\eta_a-\ln(1+\eta_a)]\right\}^{1/2}.}
+ \label{eq:infer_KL}
+\end{equation}
+This is \emph{not a calibrated Gaussian discovery significance}. The expected
+squared matched-filter SNR if the realization were known is instead
+\(\langle\rho_{\rm res}^2\rangle=\sum_a\eta_a\).
+For weak covariance, \(\eta_a\ll1\) for all modes,
+\begin{equation}
+ d^2\simeq \frac12\sum_a\eta_a^2,
+\end{equation}
+which is also the squared mean shift of the optimal quadratic score in units of
+its null standard deviation. At fixed total residual power, spreading that
+power over more independent weak modes reduces this covariance discrimination.
+
+Kullback--Leibler divergences add for independent events. Thus \(N\) identical
+events have \(d_N=\sqrt{N}\,d_1\). Because weak-signal covariance is proportional
+to fractional amplitude squared, \(d\propto\epsilon^2\), the detectable
+stochastic RMS amplitude improves only as \(N^{-1/4}\) in this regime. The
+\(N^{-1/2}\) amplitude scaling of a known deterministic waveform does not apply
+to independent unknown lens realizations. This Gaussian treatment is an
+explicit approximation; a sparse, non-Gaussian halo population would require
+an appropriate hierarchical likelihood.

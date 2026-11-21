@@ -1,0 +1,69 @@
+{
+  "source_version": "arXiv:2607.11887v1, 13 July 2026",
+  "source_url": "https://pdfs.assets.alphaxiv.org/2607.11887v1.pdf",
+  "source_sha256": "f1265b024f43ec56b07b03168df24cf720a451b455741d454bfadf6344209584",
+  "figure": "Figure 2 upper panel, PDF page 3",
+  "source_redshift": 2,
+  "equivalent_frequency_axis_reference_lens_redshift": 1,
+  "curve_selection": "Topmost right endpoint among 12 colored polylines; colorbar minimum log10(M_min/Msun)=-6",
+  "selected_drawing_index": 251,
+  "selected_rgb": [
+    0.18995000422000885,
+    0.07175999879837036,
+    0.2321700006723404
+  ],
+  "vector_vertex_count": 21,
+  "axis_fits": {
+    "log10_f_from_x_pdf_points": [
+      0.08243386443558409,
+      -17.411462756229625
+    ],
+    "log10_k_phys_from_x_pdf_points": [
+      0.041216927743132147,
+      -5.5430468502800885
+    ],
+    "log10_P_from_y_pdf_points": [
+      -0.23589942846309478,
+      12.349534094588744
+    ]
+  },
+  "validation": {
+    "frequency_tick_max_error_dex": 1.0482008896417483e-06,
+    "wavenumber_tick_max_error_dex": 2.4707586376848667e-07,
+    "power_tick_max_error_dex": 2.0997316489967943e-06,
+    "d_log_frequency_d_log_wavenumber": 2.0000002171272895,
+    "next_cutoff_curve_relative_difference_at_0p01_100_hz": [
+      -0.0019424653039203932,
+      -0.009552389485838253
+    ],
+    "independent_adjacent_segment_slopes": [
+      {
+        "equivalent_f_range_hz": [
+          3.326769073866174e-05,
+          0.0009635384605087962
+        ],
+        "n_dlogP_dlogk": -2.707985544838237
+      },
+      {
+        "equivalent_f_range_hz": [
+          0.0009635384605087962,
+          4727.518461758175
+        ],
+        "n_dlogP_dlogk": -2.7117881419147674
+      }
+    ]
+  },
+  "P_at_0p01_100_hz": [
+    5.43420209146772e-14,
+    2.0490855477795216e-19
+  ],
+  "high_k_slope_between_0p01_100_hz": -2.711787847513195,
+  "ratio_fP_100_over_0p01": 0.037707201780309306,
+  "conditional_scale_free_RMS_ratio": 0.19418342303170297,
+  "limitations": [
+    "Vector digitization of a simplified plotted curve, not original numerical data.",
+    "Equivalent frequency labels map spatial k to f for a reference lens plane; P_kappa includes a line-of-sight integral.",
+    "Dimensionless plotted P_kappa normalization is not converted into a measured fractional residual.",
+    "RMS ratio assumes a power law over kernel support, identical scaled weighting/projection, and fixed geometry; it is not a complete LIGO/LISA forecast."
+  ]
+}

@@ -1,0 +1,156 @@
+\section{Diffraction about a smooth macroimage}
+
+We use the single-plane perturbative framework of
+Oguri and Takahashi~\cite{oguri2022}.  The stochastic halo signal studied
+by Choi et al.~\cite{choi2026} motivates the application, but none of the
+normalizations below is calibrated to their line-of-sight CDM calculation.
+All coordinates in this section are physical lens-plane coordinates.
+For angular-diameter distances $D_l,D_s,D_{ls}$ and observed frequency $f$,
+define
+\begin{equation}
+ r_F^2(f)=\frac{cD_lD_{ls}}{2\pi f(1+z_l)D_s},\qquad
+ A=\begin{pmatrix}\lambda_1&0\\0&\lambda_2\end{pmatrix},\qquad
+ |\mu|=\frac{1}{|\lambda_1\lambda_2|}.
+\end{equation}
+The eigenvalues may have either sign but must be nonzero.  Locally, the
+smooth Fermat potential is quadratic.  Dividing its perturbed Fresnel
+integral by the unperturbed one gives
+\begin{equation}
+ \frac{F}{F_0}=
+ \frac{\displaystyle\int d^2x\,
+  \exp\left[\frac{i\boldsymbol{x}^{T}A\boldsymbol{x}}{2r_F^2}
+                -\frac{i\delta\psi(\boldsymbol{x})}{r_F^2}\right]}
+ {\displaystyle\int d^2x\,
+  \exp\left[\frac{i\boldsymbol{x}^{T}A\boldsymbol{x}}{2r_F^2}\right]}.
+ \label{eq:macro-fresnel}
+\end{equation}
+The smooth factor has modulus $|F_0|=\sqrt{|\mu|}$ and the appropriate
+Morse phase.  The perturbing potential obeys
+$\nabla^2\delta\psi=2\delta\kappa$.
+We remove the arrival-time shift $-\delta\psi(0)/r_F^2$ from the phase
+and retain first order in $\delta\psi$.  With Fourier convention
+$\delta\kappa(\boldsymbol{x})=
+\int d^2k\,\widetilde\kappa(\boldsymbol{k})
+e^{i\boldsymbol{k}\cdot\boldsymbol{x}}/(2\pi)^2$,
+the Gaussian integral yields
+\begin{align}
+ \eta(f)&\equiv e^{i\delta\psi(0)/r_F^2}\frac{F(f)}{F_0(f)}-1
+ =\int\frac{d^2k}{(2\pi)^2}\,
+ \widetilde\kappa(\boldsymbol{k}) H_A(f,\boldsymbol{k}),\\
+ H_A(f,\boldsymbol{k})&=
+ \frac{2i}{r_F^2 k^2}
+ \left\{\exp\left[-\frac{i r_F^2}{2}
+ \boldsymbol{k}^{T}A^{-1}\boldsymbol{k}\right]-1\right\}.
+ \label{eq:macro-kernel}
+\end{align}
+Equation~\eqref{eq:macro-kernel} is Eq.~(21) of
+Ref.~\cite{oguri2022}, with their directional magnifications equal to
+$\lambda_1^{-1},\lambda_2^{-1}$.  It applies to saddles as well as minima.
+For $A=I$, $H=(1-e^{-is})/(is)$, where $s=r_F^2 k^2/2$.
+
+The numerical implementation uses
+$q=k r_F(f_{\rm ref})$, $f_{\rm ref}=100\,\mathrm{Hz}$, and
+\begin{equation}
+ b(\theta)=\frac{\cos^2\theta}{\lambda_1}
+           +\frac{\sin^2\theta}{\lambda_2},\qquad
+ s=\frac{q^2b(\theta)f_{\rm ref}}{2f},\qquad
+ H_A=b(\theta)\,\frac{\sin(s/2)}{s/2}e^{-is/2}.
+\end{equation}
+This form is continuous at $q=0$ and $b=0$.  At fixed $\boldsymbol{k}$,
+$H_A\to b(\theta)$ as $f\to\infty$: a real, frequency-independent
+geometric magnification, not a measurable diffraction residual by itself.
+
+\subsection{Projection and real covariance}
+
+For normalized positive frequency weights $w_a$, the relevant inner
+product is $\operatorname{Re}\sum_a w_a u_a^*v_a$.
+The nuisance directions for an image or an aligned image ratio are
+$1,i,if$, corresponding to amplitude, phase, and arrival time.  We project
+the real part of $H$ off a constant and its imaginary part off a constant
+plus a linear function of $f$:
+\begin{align}
+ \operatorname{Re}(QH)&=\operatorname{Re}H-
+                  \langle\operatorname{Re}H\rangle_w,\\
+ \operatorname{Im}(QH)&=\operatorname{Im}H-
+                  \langle\operatorname{Im}H\rangle_w
+ -(f-\langle f\rangle_w)
+  \frac{\langle(f-\langle f\rangle_w)\operatorname{Im}H\rangle_w}
+       {\langle(f-\langle f\rangle_w)^2\rangle_w}.
+ \label{eq:real-projection}
+\end{align}
+Complex regression on $\{1,f\}$ would also discard a real amplitude
+slope and would therefore remove a physical mode unnecessarily.
+
+Define the homogeneous convergence spectrum by
+$\langle\widetilde\kappa(\boldsymbol{k})
+\widetilde\kappa^*(\boldsymbol{k}')\rangle
+=(2\pi)^2\delta^{(2)}(\boldsymbol{k}-\boldsymbol{k}')P_\kappa(k)$
+and $\Delta_\kappa^2(k)=k^2P_\kappa(k)/(2\pi)$.
+Writing
+$\boldsymbol{v}(k,\theta)=[\operatorname{Re}(QH),
+\operatorname{Im}(QH)]^T$, the unweighted joint covariance is
+\begin{equation}
+ C=\int d\ln k\,\Delta_\kappa^2(k)
+       \left\langle\boldsymbol{v}\boldsymbol{v}^{T}\right\rangle_\theta.
+ \label{eq:real-covariance}
+\end{equation}
+The mean-square projected fractional residual is
+$\sigma_\perp^2=\operatorname{tr}(WC)$ with
+$W=\operatorname{diag}(w_1,\ldots,w_N,w_1,\ldots,w_N)$.
+The real field makes the complex fluctuations noncircular; the joint
+real covariance retains information lost by keeping only
+$\langle\eta\eta^*\rangle$.
+
+For two images, the cross-covariance before projection includes
+$H_{A_1}(f,\boldsymbol{k})H_{A_2}^*(g,\boldsymbol{k})
+e^{i\boldsymbol{k}\cdot(\boldsymbol{x}_1-\boldsymbol{x}_2)}$.
+Their differential covariance is $C_1+C_2-C_{12}-C_{21}$.
+Using $C_1+C_2$ therefore requires independent image perturbations;
+it is not automatic for all line-of-sight structures.
+
+\subsection{An analytic power-law check}
+
+Suppose $P_\kappa(k)=C_0 k^n$ on all relevant scales.  Consider a fixed
+fractional frequency band $f=f_0 u$ with identical weights as a function
+of $u$.  Changing radial variable to
+$p=k r_F(f_0)\sqrt{|b(\theta)|}$ in
+Eq.~\eqref{eq:real-covariance} gives
+\begin{equation}
+ \sigma_\perp^2(f_0,A)\ \propto\
+ f_0^{(n+2)/2}
+ \left\langle |b(\theta)|^{(2-n)/2}\right\rangle_\theta,
+ \qquad -6<n<2.
+ \label{eq:powerlaw-scaling}
+\end{equation}
+The convergence range follows from $QH=O(k^2)$ at small $k$ and
+$QH=O(k^{-2})$ at large $k$.  Thus the RMS scales as
+$f_0^{(n+2)/4}$.  Frequency independence occurs only for $n=-2$;
+it is not a general prediction for CDM or for two detectors with
+different waveform and noise weights.
+
+For $n=-2$, the RMS gain relative to $A=I$ has the closed form
+\begin{equation}
+ G^2\equiv\frac{\sigma_\perp^2(A)}{\sigma_\perp^2(I)}
+ =\left\langle b^2\right\rangle_\theta
+ =\frac{3}{8}\left(\lambda_1^{-2}+\lambda_2^{-2}\right)
+   +\frac{1}{4\lambda_1\lambda_2}.
+ \label{eq:flat-spectrum-gain}
+\end{equation}
+For $\lambda_2=1$ and $\lambda_1=\pm1/|\mu|$,
+$G\simeq\sqrt{3/8}\,|\mu|$ at large $|\mu|$.
+This fractional enhancement is separate from the smooth-waveform SNR
+gain $\sqrt{|\mu|}$.  The radial and angular numerical integrals are
+tested against Eq.~\eqref{eq:flat-spectrum-gain}; finite spectral cutoffs
+and changes of slope require the full integral.
+
+\paragraph{Scope and validity.}
+These results describe a weak screen at the main lens plane and a
+locally quadratic, nonsingular macroimage.  The elliptical Fresnel
+widths $r_F/\sqrt{|\lambda_i|}$ must remain within that local region,
+and perturbations must remain small enough for the Born expansion.
+One cannot apply the same $A^{-1}$ to every foreground and background
+screen: their coupling to the macro lens needs a multiplane propagation
+calculation.  The calculation also does not follow newly created
+microimages or nonlinear caustics.  Stellar fluctuations can dominate
+CDM fluctuations in the ground-based band even when both are enhanced
+by strong lensing~\cite{oguri2022}.

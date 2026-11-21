@@ -1,0 +1,379 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.83in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,bm,booktabs,graphicx,microtype}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true,linkcolor=MidnightBlue,citecolor=MidnightBlue,urlcolor=MidnightBlue]{hyperref}
+\usepackage{caption}
+\usepackage{placeins}
+\usepackage{enumitem}
+\setlist{nosep}
+\graphicspath{{../figures/}}
+\setlength{\parskip}{0.35em}
+\setlength{\parindent}{0pt}
+\title{Stochastic diffraction in strongly lensed black-hole mergers\\[0.4em]
+\large A reproducible perturbative calculation and a stellar-foreground check}
+\author{Research calculation note}
+\date{21 November 2026}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+Strong lensing offers a physically motivated way to combine a high-redshift
+gravitational-wave source with a high observed signal-to-noise ratio. It also
+changes the response to small density fluctuations near a macroimage. We
+implement the single-plane Born response of Oguri and Takahashi (2022), project
+out ordinary magnification, phase, and arrival time, and calculate the full real
+covariance of the differential waveform of a minimum/saddle image pair. The
+calculation separates the known-realization residual SNR from the information
+in an unknown stochastic covariance. Analytic power-law checks show that the
+fractional signal can grow approximately linearly with magnification, in
+addition to the usual square-root strain enhancement. An explicitly specified
+NFW population illustrates this effect, but its predicted ground-band signal
+remains smaller than the stellar foreground in the same benchmark. This is a
+conditional calculation, not a calibrated CDM, detector, or merger-rate forecast.
+\end{abstract}
+
+\section{Results and interpretation}
+
+\textbf{The idea is physically well motivated, and has direct prior art.}
+Oguri and Takahashi~\cite{oguri2022} already derived the macroimage response
+and proposed comparing repeated waveforms. Our contribution here is a
+reproducible implementation with a bandwise nuisance projection, real joint
+covariance, unequal-image noise accounting, and an explicit stellar-foreground
+comparison. The recent stochastic-halo study~\cite{choi2026} and the strongly
+lensed LISA calculations~\cite{ando2026a,ando2026b} motivate the application;
+their LISA signal normalizations are not imported into a ground-based forecast.
+
+The main results are:
+\begin{enumerate}
+\item At a fixed lens-plane convergence spectrum, a near-critical macroimage
+enhances the \emph{fractional frequency-dependent} residual as well as the GW
+strain. For $P_\kappa\propto k^{-2}$, a local fold-like image with eigenvalues
+$(\pm1/|\mu|,1)$ has fractional RMS gain
+$G\simeq\sqrt{3/8}|\mu|$ at large magnification. The known-residual SNR
+therefore grows approximately as $|\mu|^{3/2}$ in this special model.
+\item The differential measurement pays the noise of both images:
+$\rho_\Delta=\rho_1\rho_2/(\rho_1^2+\rho_2^2)^{1/2}$ when the normalized
+spectral weights agree. Repeating the waveform helps with intrinsic source
+uncertainty; it does not eliminate the noise of the fainter image.
+\item In our explicitly parameterized NFW benchmark over $10$--$100$ Hz,
+the differential subhalo RMS is approximately $0.20\%$ at $|\mu|=30$ and
+$0.81\%$ at $|\mu|=100$. These values depend on the local surface population,
+concentrations, and frequency weighting.
+\item The benchmark stellar differential RMS is approximately $3.3\%$ and
+$5.9\%$ at the same magnifications. Marginalizing its random realization
+reduces information about the weaker subhalo component. A detected modulation
+cannot automatically be attributed to dark matter.
+\item The earlier informal estimate of equal CDM diffraction in LISA and
+ground-based bands is not supported by the actual plotted slope of
+Ref.~\cite{choi2026}. A digitized slope implies a conditional RMS ratio nearer
+$0.2$ for a four-decade frequency increase; see Section~\ref{sec:figure-audit}.
+\end{enumerate}
+
+These results favor studying high-magnification pairs with small stellar surface
+density and useful low-frequency sensitivity. They do not establish how often
+such pairs occur, whether their subhalos survive the lens environment, or whether
+the Born approximation is accurate for the stellar field close to a caustic.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{scale_free_enhancement.pdf}
+\caption{Analytic conditional enhancement for isotropic power-law convergence
+spectra. The left panel shows the fractional residual gain, after projection;
+the right also includes the $\sqrt{|\mu|}$ strain gain. Here $n$ is the slope
+of $P_\kappa$, not of power per logarithmic interval. These curves hold the
+screen spectrum fixed and do not specify its astrophysical normalization.}
+\end{figure}
+\FloatBarrier
+
+\input{theory.tex}
+\input{inference.tex}
+\input{systematics.tex}
+\input{kernel_consistency.tex}
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{morse_and_systematics.pdf}
+\caption{Left: the three geometric image operators applied to an illustrative
+band-limited chirp, not a black-hole waveform model. Right: a noiseless
+image/detector cross-difference rejects detector-specific drift while retaining
+its exact blind spot to drift common to all detectors. Its normalization is
+for visualization only; no noise or significance calculation is implied.}
+\end{figure}
+\FloatBarrier
+
+\section{An explicit local subhalo and stellar benchmark}
+\label{sec:model}
+
+We choose a flat matter--Lambda geometry with $H_0=70\,\mathrm{km\,s^{-1}\,Mpc^{-1}}$,
+$\Omega_m=0.3$, lens redshift $z_l=0.5$, and source redshift $z_s=2$.
+All distances, projected surface densities, and wavenumbers in the implementation
+are physical. The resulting critical surface density and Fresnel scale are
+\begin{equation}
+ \Sigma_{\rm cr}=\frac{c^2D_s}{4\pi G D_lD_{ls}}
+ \simeq2079\,M_\odot\,\mathrm{pc^{-2}},\qquad
+ r_F(100\,\mathrm{Hz})\simeq0.0908\,\mathrm{pc}.
+\end{equation}
+The elongated Fresnel width is $r_F\sqrt{|\mu|}$ for the chosen unit radial
+eigenvalue. At $100$ Hz it is about $0.91$ pc for $|\mu|=100$.
+This spatial scale does not imply a unique halo mass: an extended halo's
+profile, abundance, and impact parameter all enter its diffraction signal.
+
+\subsection{Finite NFW profiles and a surface population}
+
+Take an unclustered local surface-number distribution
+$d^2N/(dA\,dM)=B M^{-\alpha}$, with
+\begin{equation}
+ \alpha=1.9,\quad M_{\min}=10^{-6}M_\odot,\quad
+ M_{\max}=10^8M_\odot,\quad
+ \int dM\,M\frac{d^2N}{dA\,dM}=\kappa_{\rm sub}\Sigma_{\rm cr},
+ \quad \kappa_{\rm sub}=0.005.
+\end{equation}
+Each halo is truncated at $r_{200}$, defined with respect to $200\rho_c(z_l)$,
+and normalized to finite mass $M$. Its concentration is an explicit input:
+\begin{equation}
+ c_{200}(M)=\min\left[200,\ c_6\left(\frac{M}{10^6M_\odot}\right)^{-0.1}\right],
+ \qquad c_6=15,30,60,
+ \label{eq:concentration-model}
+\end{equation}
+with $c_6=30$ the benchmark. These are exploratory concentration choices,
+not fitted relations. In particular, the model does not include stripping,
+subhalo depletion, a radial distribution within a host, or a tidal history.
+
+The normalized transform of the projected profile equals the three-dimensional
+spherical transform evaluated at transverse wavenumber. With $x=kr_s$ and
+$g(c)=\ln(1+c)-c/(1+c)$, it is
+\begin{align}
+ u(x,c)=\frac{1}{g(c)}\bigg\{&\sin x\,[\operatorname{Si}((1+c)x)-\operatorname{Si}(x)]
+ +\cos x\,[\operatorname{Ci}((1+c)x)-\operatorname{Ci}(x)]\nonumber\\
+ &-\frac{\sin(cx)}{(1+c)x}\bigg\},\qquad u(0,c)=1.
+\end{align}
+The Poisson convergence spectrum is
+\begin{equation}
+ P_{\kappa,\rm sub}(k)=\int dM\,\frac{d^2N}{dA\,dM}
+ \left(\frac{M}{\Sigma_{\rm cr}}\right)^2 |u(kr_s,c)|^2.
+ \label{eq:subhalo-power}
+\end{equation}
+This is the standard shot-spectrum construction used in
+Ref.~\cite{oguri2022}; our population and truncation prescription are separately
+specified, so this is not a reproduction of that paper's figures.
+
+The $A=I$ comparison keeps this same nonzero fluctuation spectrum as a
+mathematical reference filter. It is not a self-consistent zero-convergence
+lens galaxy. Similarly, the magnification sweep varies the Jacobian while
+holding local stellar and subhalo populations fixed; it is a response study,
+not a family of fully solved galaxy lenses.
+
+\subsection{Stellar shot noise and its limits}
+
+The point-mass benchmark uses
+\begin{equation}
+ P_{\kappa,\star}=\frac{\kappa_\star M_{\rm eff}}{\Sigma_{\rm cr}},\qquad
+ M_{\rm eff}=\frac{\langle M^2\rangle}{\langle M\rangle}=0.5M_\odot,
+ \qquad\kappa_\star=0.025.
+ \label{eq:stellar-power}
+\end{equation}
+For a near-critical region with total convergence near $0.5$, this corresponds
+to an illustrative stellar fraction of $5\%$ and subhalo fraction of $1\%$.
+We also rescale the stellar covariance to $\kappa_\star=0$, $0.00025$, and
+$0.0025$ to show environmental sensitivity. A real stellar mass function,
+remnants, and nonlinear microlensing are not implemented. The importance of
+such fields for strongly lensed GWs has also been studied explicitly in
+Ref.~\cite{zumalacarregui2026}.
+
+For a point mass, $w_M=8\pi GM(1+z_l)f/c^3$. At $100$ Hz and
+$M=0.5M_\odot$, $w_M=0.00928$ in this geometry, but
+$|\mu|w_M\simeq0.93$ for $|\mu|=100$.
+This is a warning that proximity to the macrocritical curve can defeat a
+naive weak-stellar-screen approximation; it is not a complete validity test.
+The largest-magnification stellar numbers are therefore diagnostic benchmarks,
+not validated nonlinear microlensing predictions.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{local_population_comparison.pdf}
+\caption{An explicitly specified, local, physical population. The left panel
+shows the convergence power; the right shows the projected RMS of independent
+minimum and saddle image perturbations. Concentration choices bracket one
+important uncertainty. Dashed stellar curves use the weak-screen shot spectrum;
+they are not microlensing-map simulations.}
+\end{figure}
+
+\subsection{Band weights and high-redshift binaries}
+
+The default calculation uses 64 logarithmically spaced observed frequencies
+from $10$ to $100$ Hz and equal weight per $d\ln f$, with trapezoidal endpoint
+weights. The input $\rho_0$ is the unlensed SNR of \emph{one source in that
+specified band and detector/network convention}. It is not a total SNR from
+a different band. We do not assume a particular Einstein Telescope, Cosmic
+Explorer, or unspecified fourth-generation sensitivity curve.
+
+For comparison, we implement $3$--$30$ Hz and $30$--$300$ Hz bands and a second
+weight proportional to $f^{-7/3}df$, corresponding to Newtonian inspiral in
+white strain noise. At $|\mu|=30$, the benchmark differential subhalo RMS is
+approximately $2.44$, $1.99$, and $1.66$ times $10^{-3}$ in the three log-weighted
+bands. The $10$--$100$ Hz white-noise inspiral weight gives $1.79\times10^{-3}$.
+These are sensitivity checks, not detector response models.
+
+Redshift changes which band contains the waveform. For example, the test-particle
+ISCO reference is $f_{\rm ISCO}=c^3/[6^{3/2}\pi G(1+z_s)M]$;
+a source-frame $30+30M_\odot$ binary at $z_s=2$ gives about $24$ Hz.
+Merger and ringdown extend above that reference. Thus a physical detector
+forecast must use a redshifted inspiral--merger--ringdown waveform, rather than
+assigning a universal $30$--$300$ Hz weight to all high-redshift binaries.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{frequency_and_mass_dependence.pdf}
+\caption{Left: moving a one-decade band changes both the halo and stellar
+residuals in the explicit benchmark. Right: the contribution to variance per
+logarithmic halo mass in the $10$--$100$ Hz minimum-image calculation, normalized
+to unit area. The halo mass at which a low-mass cut saturates is not necessarily
+the mass that dominates the signal.}
+\end{figure}
+\FloatBarrier
+
+\section{Numerical differential sensitivity}
+
+Consider independent minimum and saddle fluctuations with equal absolute
+magnification and eigenvalues $(1/|\mu|,1)$ and $(-1/|\mu|,1)$.
+The observed SNR of each image is $\rho_i=\sqrt{|\mu|}\rho_0$.
+For the finite local population above, Table~\ref{tab:bench} gives the result
+for $\rho_0=50$. Only the environment and frequency-band assumptions turn the
+dimensionless sensitivity requirements into these illustrative numbers.
+
+\begin{table}[htbp]
+\centering\small
+\input{../results/benchmark_table.tex}
+\caption{Default $10$--$100$ Hz local benchmark. The residual SNR is an
+RMS \emph{known-realization ceiling}. The last column is
+$d=\sqrt{2D_{\rm KL}}$ for adding subhalos on top of a fixed stellar covariance,
+after marginalizing both random fields. Neither column is a calibrated
+Gaussian discovery significance. The $|\mu|=100$ stellar calculation is
+close to the weak-screen warning regime.}
+\label{tab:bench}
+\end{table}
+
+For the stellar comparison, let $\Lambda_{\rm DM}$ and $\Lambda_\star$ be
+noise-whitened, projected, real covariance matrices. The two Gaussian models
+have covariances $B=I+\Lambda_\star$ and $B+\Lambda_{\rm DM}$.
+The eigenvalues that enter Eq.~\eqref{eq:infer_KL} are therefore those of
+\begin{equation}
+ B^{-1/2}\Lambda_{\rm DM}B^{-1/2}.
+\end{equation}
+The main comparison fixes the stellar covariance but integrates over its
+unknown realization. An optional output also marginalizes one stellar
+covariance amplitude in the local Fisher approximation. This Gaussian
+foreground treatment does not exhaust the information in a resolved,
+non-Gaussian microlensing pattern; it is a transparent first likelihood model.
+
+At $|\mu|=100$, $\rho_0=50$, the known-residual ceiling is about $2.88$, while
+the subhalo-only covariance separation is about $2.05$. Including the default
+stellar covariance gives only about $0.054$. Thus a high observed SNR and a
+percent-level distortion do not by themselves establish a CDM measurement.
+Lower stellar density, a more concentrated/surviving subhalo population,
+low-frequency sensitivity, and an analysis that exploits distinct stellar and
+subhalo features can materially alter this result.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{covariance_detectability.pdf}
+\caption{Left: known-realization residual SNR (solid) and subhalo-only Gaussian
+covariance separation (dashed) for several unlensed in-band SNRs. Right: the
+dependence on stellar surface convergence at $\rho_0=50$, after marginalizing
+stellar realizations while fixing their covariance. The ordinate is information
+separation, not a $p$-value or a detection significance.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{snr_requirements.pdf}
+\caption{Sensitivity requirements independent of a particular detector.
+Left: the conditional $n=-2$ scale-free model, where $\epsilon_0$ is the
+baseline per-image projected RMS and the two images are independent.
+Right: the required \emph{differential} RMS for equally loud images with any
+specified residual shape. A known-realization SNR of five is a sensitivity
+reference, not a claim of five-sigma stochastic detection.}
+\end{figure}
+
+For the scale-free $n=-2$ example, the independent fold-pair ceiling can be
+written particularly simply:
+\begin{equation}
+ \rho_{\rm res,rms}=\rho_0\epsilon_0
+ \sqrt{\frac{3}{8}|\mu|\left(|\mu|^2+1\right)}.
+\end{equation}
+This is useful for exploring future sensitivities without inventing a
+fourth-generation design curve. Large magnifications are rare: the local fold
+mapping gives an unbiased source-plane cross-section above $|\mu|$ proportional
+to $|\mu|^{-2}$. Magnification bias, the population, time delays, detectability
+of both images, and microcaustics must be included before quoting event rates.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{example_residuals.pdf}
+\caption{Three seeded Gaussian realizations from the calculated real joint
+subhalo covariance at $|\mu|=30$. These are illustrative random weak-screen
+signals, not waveform simulations or individual halo ray-tracing results.
+The fitted magnification, phase, and arrival time have already been removed.}
+\end{figure}
+\FloatBarrier
+
+\section{Audit of the earlier LISA-to-ground-band extrapolation}
+\label{sec:figure-audit}
+
+The raw variance in Eq.~(7) of Ref.~\cite{choi2026} includes the geometric
+contribution $H\to1$ from low wavenumber. For $P_\kappa\propto k^{-2}$ it
+has an infrared logarithm. It is therefore not generally localized to the
+Fresnel scale, and its value cannot be inferred from a single plotted power
+value. A projected residual is the appropriate quantity.
+
+We separately extract the vector path of the lowest-mass-cut curve in Fig.~2
+of the version-1 PDF. The independent digitization script records a source
+hash, axis fits, curve selection, and validation. It yields approximate plotted
+values $P_\kappa\simeq5.4\times10^{-14}$ at equivalent frequency $0.01$ Hz
+and $2.0\times10^{-19}$ at $100$ Hz. These are the figure's dimensionless
+normalization, not measured waveform variances. Their high-wavenumber slope is
+$n\simeq-2.71$, rather than $-2$.
+
+For an ideal power law spanning the relevant kernels and identically scaled
+frequency weights, Eq.~\eqref{eq:powerlaw-scaling} gives
+\begin{equation}
+ \frac{\sigma_\perp(100\,\mathrm{Hz})}{\sigma_\perp(0.01\,\mathrm{Hz})}
+ \sim(10^4)^{(-2.71+2)/4}\simeq0.2.
+\end{equation}
+This is a slope-based estimate, not a full LIGO/LISA comparison. The figure's
+top axis maps physical scale to frequency for a reference lens at $z_l=1$;
+its spectrum already integrates along the line of sight to $z_s=2$.
+The curve is simplified in the PDF and is not the authors' numerical data.
+We do not use its absolute normalization in the independent local-lens model.
+The earlier conclusion of comparable amplitudes should therefore be withdrawn.
+
+\section{Validation, scope, and the next physical calculation}
+
+The unit tests check the unlensed and geometric kernel limits, the exact
+power-law macro gain, real nuisance projection, covariance positivity and
+null directions, NFW transforms against radial quadrature, mass normalization,
+harmonic image weights, and both weak- and finite-signal likelihood limits.
+The independent convergence script doubles radial, angular, and frequency
+sampling for selected cases, compares covariance traces against direct
+variance integration, and checks the infrared cutoff needed for the mHz scan.
+The numerical reports are committed with the figures and code.
+
+The work is complete as a reproducible exploratory calculation. A physical
+forecast still requires the following distinct inputs:
+\begin{enumerate}
+\item A specified detector/network response and redshifted BBH population,
+including selection on the SNR of \emph{both} images and observing time.
+\item A calibrated, tidally evolved subhalo population in galaxy and cluster
+lenses, with survival and concentration uncertainties at the relevant scales.
+\item Stellar and remnant mass distributions with nonlinear diffraction tests
+in the configurations where the weak-screen model becomes marginal.
+\item Multiplane propagation and inter-image correlations for field halos
+away from the primary lens plane; they cannot be multiplied by the same
+local macro gain without derivation.
+\item A network likelihood for shared source polarizations, calibration,
+macro nuisance parameters, and non-Gaussian small-scale lens realizations.
+\end{enumerate}
+
+These requirements specify what would turn an enhanced diffraction signal into
+a credible dark-matter inference. They also suggest a focused follow-up:
+compare low-stellar-density cluster image pairs with ordinary galaxy pairs,
+using the same in-band SNR and a realistic subhalo-survival model.
+
+\bibliographystyle{unsrt}
+\bibliography{references,systematics_references,consistency_references}
+\end{document}

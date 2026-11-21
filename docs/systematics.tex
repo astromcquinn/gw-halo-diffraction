@@ -1,0 +1,123 @@
+\section{Detector-systematics checks and image-dependent waveform phases}
+\label{sec:systematics}
+
+Repeated images provide useful consistency tests, but not a universal proof
+that a frequency-dependent residual is astrophysical. The distinction is between
+calibration that is stable between images, calibration that changes differently
+in different instruments, and an epoch-dependent error common to the network.
+
+\subsection{Apply the Morse operator before differencing}
+
+In geometric optics, a macroimage contributes
+\begin{equation}
+ \widetilde h_i(f)=\sqrt{|\mu_i|}\,e^{2\pi ift_i}
+ M_{n_i}(f)[1+\delta_i(f)]\widetilde h(f),\qquad
+ M_n(f)=e^{-i\pi n\,\operatorname{sgn}f},
+ \label{eq:sys_morse}
+\end{equation}
+using a convention in which a delay gives \(e^{2\pi ift_i}\).
+The Morse index is \(n=0,1/2,1\) for a minimum, saddle, and maximum of
+the arrival-time surface, respectively \cite{dai2017}. At nonzero frequencies,
+\begin{center}
+\begin{tabular}{lll}
+Image type & Fourier operator & Effect on real strain \\
+\hline
+Minimum & \(1\) & unchanged \\
+Saddle & \(-i\operatorname{sgn}f\) & Hilbert transform \\
+Maximum & \(-1\) & overall sign reversal
+\end{tabular}
+\end{center}
+Thus a saddle is not simply a sign-reversed waveform. Negative signed
+magnification denotes image parity; the strain amplitude is
+\(\sqrt{|\mu|}\), while its Morse phase is supplied separately. A maximum
+has positive parity and nevertheless reverses the strain sign.
+The relation \(M_n(-f)=M_n(f)^*\) preserves a real time-domain signal.
+The zero-frequency geometric-optics limit is outside this calculation.
+
+Before comparison, divide each image by its magnification and delay and apply
+\(M_{n_i}^*(f)\). This removes the entire image operator, including for signals
+with higher harmonics. Treating a saddle as a binary coalescence-phase shift is
+not generally valid. An uncorrected Morse phase can otherwise produce a large
+spurious residual. The fractional perturbation \(\delta_i\) remaining after
+this correction has no universal sign; its amplitude and phase depend on the
+perturbing structure and macroimage response \cite{oguri2022}.
+
+The parity correction is not a free systematic-error reversal. A multiplicative
+calibration error acts on the phase-shifted GW itself, so applying the inverse
+Morse operator also rotates that error with the signal. After alignment, the
+residual still contains $h[(\delta_i-\delta_j)+(c_{Ii}-c_{Ij})]$.
+Image parity therefore helps identify and align lensed images; it does not
+by itself distinguish diffraction from multiplicative calibration drift.
+
+\subsection{Use independent detector observations of the same residual}
+
+For a known sky direction, the network signal at each epoch can be written
+\(\boldsymbol d_i=R_i[F_i\boldsymbol h]+\boldsymbol n_i\), where \(R_i\)
+maps the two source polarizations into detector strains. At the scalar-lensing
+order used here, \(F_i(f)\) multiplies both polarizations and is common to all
+detectors observing that image. It therefore remains in the same two-polarization
+signal subspace even if its frequency dependence is complicated. A noise-weighted
+null projector satisfies
+\begin{equation}
+ Q_iR_i=0,\qquad Q_iR_i[F_i\boldsymbol h]=0.
+\end{equation}
+The null stream contains detector noise rather than the lensed GW. An
+instrument-specific calibration error or glitch will generally leak into it.
+This is the standard redundant-network consistency test
+\cite{wenschutz2005,schutz2020}; it requires sufficient independent detector
+responses and correct timing, sky location, and response modeling.
+
+Image-to-image differencing supplies an additional check. For illustration,
+suppose detector/polarization responses and the macro operators have been
+corrected so that each scalar channel obeys
+\begin{equation}
+ x_{Ii}(f)=g_{Ii}(f)F_i(f)h(f),\qquad g_{Ii}=1+c_{Ii},
+ \label{eq:sys_scalar}
+\end{equation}
+temporarily omitting additive noise. This is a model for response-corrected
+channels, not a prescription for dividing raw strains whose antenna mixtures
+change as Earth rotates. The image ratio in detector \(I\) is
+\begin{equation}
+ R_I^{ij}=\frac{x_{Ii}}{x_{Ij}}
+ =\frac{F_i}{F_j}\frac{g_{Ii}}{g_{Ij}}.
+\end{equation}
+An arbitrary frequency-dependent calibration \emph{stable between epochs},
+\(g_{Ii}=g_{Ij}\), cancels exactly. To first order,
+\(R_I^{ij}-1=\delta_i-\delta_j+c_{Ii}-c_{Ij}\).
+Taking the difference of this quantity between instruments cancels the lensing
+signal and tests detector-dependent calibration evolution.
+
+A division-free exact version for instruments \(I,J\) is the determinant
+\begin{equation}
+ \mathcal N_{IJ}^{ij}=x_{Ii}x_{Jj}-x_{Ij}x_{Ji}
+ =F_iF_jh^2(g_{Ii}g_{Jj}-g_{Ij}g_{Ji}).
+ \label{eq:sys_crossdifference}
+\end{equation}
+It vanishes for stable detector calibration even when the two images have
+different diffraction. Its noise covariance must be propagated; in actual
+analysis, fit the equivalent joint likelihood rather than divide noisy Fourier
+bins. Agreement between detector-specific differential residuals, together with
+a noise-consistent null stream, is strong evidence against an error confined to
+one instrument.
+
+\subsection{The remaining degeneracy is exact}
+
+An epoch-dependent transfer \(a_i(f)\) common to every detector cannot be
+separated from lensing by these tests. The transformation
+\begin{equation}
+ F_i(f)\longrightarrow a_i(f)F_i(f),\qquad
+ g_{Ii}(f)\longrightarrow g_{Ii}(f)/a_i(f)
+\end{equation}
+leaves every measured strain unchanged. Such a common multiplicative error
+passes the null stream and Eq.~\eqref{eq:sys_crossdifference}. External calibration
+information and calibration priors remain necessary; a static common error
+does cancel between images, but one that changes between their arrivals does not.
+
+Physical diffraction templates also predict correlated amplitude and phase
+structure and frequency coherence \cite{oguri2022}. Testing those predictions,
+and checking that the same transfer acts on both polarizations, adds evidence.
+Neither a smooth residual nor Hermitian symmetry \(F(-f)=F(f)^*\) is unique to
+lensing: a physical detector transfer can satisfy both. There is no universal
+minimum-phase amplitude--phase test for a multipath lens. Likewise,
+\(R^{12}R^{23}R^{31}=1\) for three ratios formed from the same data is an
+algebraic identity, not an independent lensing or calibration test.
